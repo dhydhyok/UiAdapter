@@ -101,4 +101,53 @@ res/values-sw600dp-port/layout.xml<br/>
 - **使用自动拉伸位图（点9图）**
 
 ----------
-##总结##
+## 总结 ##
+|    android屏幕情况  |    layout |
+|  :---------------  |  :------- |
+|小屏幕，纵向       |单面板|
+|小屏幕，横向       |单面板|
+|7寸平板电脑，纵向   |单面板，带操作栏|
+|7寸平板电脑，横向   |双面板，宽，带操作栏|
+|10寸平板电脑，纵向  |双面板，窄，带操作栏|
+|10寸平板电脑，横向  |双面板，宽，带操作栏|
+|电脑，横向         |双面板，宽，带操作栏|
+   
+ 
+根据以上情况需要创建4种布局、使用布局别名绑定布局，如下所示
+<div style="width:100%;"><div style="width:60%;min-width:250px;float:left"> res/layout/onepane.xml
+res/layout/onepane_with_bar.xml
+res/layout/twopane.xml 
+res/layout/twopane_narrow.xml</div>
+<div style="width:40%;float:left"> 
+//单面板  <br/> 
+//单面板带操作栏<br/> 
+//双面板，宽布局<br/> 
+ //双面板，窄布局</div>
+ </div> 
+<div style="width:100%;">
+<div style="width:60%;float:left;"> 
+ res/values/layout.xml <br/>
+ res/values-sw600dp-land/layout.xml
+ res/values-sw600dp-port/layout.xml 
+ res/values-xlarge-land/layout.xml
+ res/values-xlarge-port/layout.xml </div><div style="width:40%;float:left"> 
+ //@layout/onepane   <br/>
+ //@layout/twopane <br/>
+ //@layout/onepane_with_bar <br/>
+ //@layout/twopane <br/>
+  //@layout/twopane_narrow</div>
+  </div><br/>
+   <div style="width:100%;height:20px;float:left" > </div>
+
+
+--------------------------------------
+# 
+**方案二：支持各种屏幕密度**<br/>
+使用非密度制约像素(解决屏幕宽度不一致问题)
+MakeXml.class 批量生成values-480\*320等文件下的lay_x.xml及lay_y.xml
+![Alt text](./clipboard.png)
+提供备用位图
+所提供的图片不能乱放，应放于该像素的文件中，android会按照一定的比例在手机上显示，例如将
+一张高分辨的图片放到低分辨率的文件夹中，在高分辨率的手机上显示这张图片会在原来的基础上放大
+**方案三：实施自适应用户界面流程 **
+可参照官方demo   NewsReader  
