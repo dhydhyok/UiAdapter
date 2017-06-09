@@ -1,3 +1,6 @@
+
+
+
 # Android 屏幕适配 #
 ## 术语和概念 ##
 - **屏幕尺寸** <br/>
@@ -61,30 +64,44 @@ Button2<br/>
 </table>
 
 例：<br/>
-res/layout/my\_layout.xml&nbsp;&nbsp;//默认情况 (单面板)<br/>
-res/layout-large/my\_layout.xml&nbsp;//大屏幕情况（双面板）<br/>
-res/layout-xlarge/my\_layout.xml &nbsp;//超大屏幕<br/>
+res/layout/my\_layout.xml &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;//默认情况 (单面板)<br/>
+res/layout-large/my\_layout.xml&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;//大屏幕情况（双面板）<br/>
+res/layout-xlarge/my\_layout.xml &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;//超大屏幕<br/>
 res/layout-xlarge-land/my\_layout.xml &nbsp;//超大屏幕横屏<br/>
 
 > 屏幕尺寸的新配置限定符（在 Android 3.2 中引入）：<br/>
 最小宽度限定符  res/layout-sw600dp/my_layout.xml   //双面板
 
 为了减少对不同尺寸带来的布局维护困难问题，因此使用布局别名；<br/>
-<font color=#8B0000 >res/layout/main.xml</font> &nbsp;&nbsp;//单面板布局 <br/>
-<font color=#8B0000 >res/layout/main_twopances.xml</font> &nbsp;&nbsp; //双面板布局<br/>
-<font color=#8B0000 >res/values/layouts.xml</font> &nbsp;&nbsp; //默认布局   显示单面板<br/>
+
+| 种类布局路径 |  描述 | 
+| :----  | :-----  |
+| res/layout/main.xml   | 单面板布局   |
+| res/layout/main_twopances.xml    |  双面板布局   |
+
+| 布局别名路径 |  描述 | 
+| :----  | :-----  |
+| res/values/layouts.xml          | 默认布局   显示单面板               |
+| res/values-xlarge/layouts.xml   | android3.2之前的平板布局 显示双面板  |
+| res/val ues-sw600dp/layouts.xml | android3.2之后的平板布局 显示双面板  |
+
+布局别名文件内容：<br/>
+> res/values/layouts.xml <br/>
 &nbsp;&nbsp;<resources\><br/>
     &nbsp;&nbsp; &nbsp;< item name="main" type="layout">@layout/main</ item><br/>
-&nbsp;&nbsp;</resources\>                             
-<font color=#8B0000 >res/values-xlarge/layouts.xml</font> &nbsp;&nbsp;//android3.2之前的平板布局 显示双面板         
+&nbsp;&nbsp;</resources\> <br/> 
+
+> res/values-xlarge/layouts.xml    
 &nbsp;&nbsp;<resources\><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;< item name="main" type="layout">@layout/main_twopances</ item><br/>
-&nbsp;&nbsp;<resources\>    
-<font color=#8B0000 >res/val ues-sw600dp/layouts.xml</font> &nbsp;&nbsp; //android3.2之后的平板布局 显示双面板 <br/>
+&nbsp;&nbsp;</resources\> <br/>   
+
+> res/val ues-sw600dp/layouts.xml <br/>
 &nbsp;&nbsp; <resources\><br/>
   &nbsp;&nbsp; &nbsp;&nbsp; < item name="main" type="layout">@layout/main_twopances</ item><br/>
 &nbsp;&nbsp; </resources\><br/>
-> <font color=#8B0000 >注：在setContentView(R.layout.main);在此resID需要使用布局别名； </font>
+
+> 注：在setContentView(R.layout.main);在此resID需要使用布局别名；
 
 <p><br/>
 不同密度下存放的图片  (按照2：3：4：6：8的比例)<br/>
@@ -113,41 +130,31 @@ res/values-sw600dp-port/layout.xml<br/>
 |电脑，横向         |双面板，宽，带操作栏|
    
  
-根据以上情况需要创建4种布局、使用布局别名绑定布局，如下所示
-<div style="width:100%;"><div style="width:60%;min-width:250px;float:left"> res/layout/onepane.xml
-res/layout/onepane_with_bar.xml
-res/layout/twopane.xml 
-res/layout/twopane_narrow.xml</div>
-<div style="width:40%;float:left"> 
-//单面板  <br/> 
-//单面板带操作栏<br/> 
-//双面板，宽布局<br/> 
- //双面板，窄布局</div>
- </div> 
-<div style="width:100%;">
-<div style="width:60%;float:left;"> 
- res/values/layout.xml <br/>
- res/values-sw600dp-land/layout.xml
- res/values-sw600dp-port/layout.xml 
- res/values-xlarge-land/layout.xml
- res/values-xlarge-port/layout.xml </div><div style="width:40%;float:left"> 
- //@layout/onepane   <br/>
- //@layout/twopane <br/>
- //@layout/onepane_with_bar <br/>
- //@layout/twopane <br/>
-  //@layout/twopane_narrow</div>
-  </div><br/>
-   <div style="width:100%;height:20px;float:left" > </div>
+根据以上情况需要创建4种布局、使用布局别名绑定布局，如下所示:
+ 
+|  |  |
+| :----------- | :------------ |
+res/layout/onepane.xml          |  //单面板
+res/layout/onepane_with_bar.xml |  //单面板带操作栏
+res/layout/twopane.xml          |  //双面板，宽布局
+res/layout/twopane_narrow.xml   |  //双面板，窄布局
+|||
+res/values/layout.xml              | //@layout/onepane 
+res/values-sw600dp-land/layout.xml | //@layout/twopane
+res/values-sw600dp-port/layout.xml | //@layout/onepane_with_bar
+res/values-xlarge-land/layout.xml  | //@layout/twopane 
+res/values-xlarge-port/layout.xml  | //@layout/twopane_narrow
 
 
 --------------------------------------
 # 
 **方案二：支持各种屏幕密度**<br/>
 使用非密度制约像素(解决屏幕宽度不一致问题)
-MakeXml.class 批量生成values-480\*320等文件下的lay_x.xml及lay_y.xml
-![Alt text](./clipboard.png)
-提供备用位图
+MakeXml.class 批量生成values-480\*320等文件下的lay\_x.xml及lay\_y.xml
+![](http://i.imgur.com/f3kvHZ9.png)
+提供备用位图 <br/>
 所提供的图片不能乱放，应放于该像素的文件中，android会按照一定的比例在手机上显示，例如将
-一张高分辨的图片放到低分辨率的文件夹中，在高分辨率的手机上显示这张图片会在原来的基础上放大
-**方案三：实施自适应用户界面流程 **
+一张高分辨的图片放到低分辨率的文件夹中，在高分辨率的手机上显示这张图片会在原来的基础上放大。<br/>
+#
+**方案三：实施自适应用户界面流程** <br/>
 可参照官方demo   NewsReader  
